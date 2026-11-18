@@ -18,9 +18,9 @@
         <v-list v-else lines="two">
           <v-list-item v-for="p in wishItems" :key="p.documentId">
             <template #prepend>
-              <v-avatar size="56" color="grey-lighten-3">
+              <v-avatar size="56" color="background">
                 <v-img v-if="p.image" :src="mediaUrl(p.image, 'thumbnail')" cover />
-                <v-icon v-else :icon="categoryIcon(p.category)" color="grey" />
+                <v-icon v-else :icon="categoryIcon(p.category)" color="primary" />
               </v-avatar>
             </template>
             <v-list-item-title>{{ p.name }}</v-list-item-title>

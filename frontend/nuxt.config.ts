@@ -14,12 +14,18 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'SigBam Shop | E-Commerce Store',
+      title: 'ShopKart | E-Commerce Store',
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'SigBam Shop e-commerce store powered by Nuxt 4, Vuetify 4 and Strapi 5.' },
+        { name: 'description', content: 'ShopKart e-commerce store powered by Nuxt 4, Vuetify 4 and Strapi 5.' },
       ],
-      link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+      link: [
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        // Inter font from Google Fonts
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap' },
+      ],
     },
   },
 

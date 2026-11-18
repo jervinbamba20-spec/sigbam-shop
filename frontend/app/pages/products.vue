@@ -1,5 +1,5 @@
 <template>
-  <v-container class="py-8" style="max-width: 1300px">
+  <div class="page-wrap py-8">
     <!-- ============ HEADER ============ -->
     <div class="d-flex flex-wrap align-center ga-3 mb-6">
       <div>
@@ -10,16 +10,6 @@
       <v-btn variant="outlined" color="primary" prepend-icon="mdi-storefront" to="/">Go to Homepage</v-btn>
       <v-btn color="primary" prepend-icon="mdi-plus" @click="openCreate">Add Product</v-btn>
     </div>
-
-    <!-- ============ STATS ============ -->
-    <v-row class="mb-2">
-      <v-col v-for="s in stats" :key="s.label" cols="6" md="3">
-        <v-card class="pa-4">
-          <div class="text-h6 font-weight-bold">{{ s.value }}</div>
-          <div class="text-caption text-grey-darken-1">{{ s.label }}</div>
-        </v-card>
-      </v-col>
-    </v-row>
 
     <!-- ============ TABLE ============ -->
     <v-card>
@@ -38,12 +28,12 @@
             <v-select v-model="statusFilter" :items="['All', 'Active', 'Inactive']" label="Status" hide-details />
           </v-col>
           <v-col cols="6" md="3" class="d-flex align-center">
-            <v-btn block variant="outlined" prepend-icon="mdi-refresh" :loading="loading" @click="load">Refresh</v-btn>
+            <v-btn block variant="tonal" prepend-icon="mdi-refresh" :loading="loading" @click="load">Refresh</v-btn>
           </v-col>
         </v-row>
       </v-card-text>
 
-      <v-alert v-if="loadError" type="error" variant="outlined" class="mx-4 mb-4" :text="loadError">
+      <v-alert v-if="loadError" type="error" variant="tonal" class="mx-4 mb-4" :text="loadError">
         <template #append><v-btn variant="outlined" color="error" @click="load">Retry</v-btn></template>
       </v-alert>
 
@@ -59,9 +49,9 @@
         mobile-breakpoint="sm"
       >
         <template #item.image="{ item }">
-          <v-avatar size="52" color="grey-lighten-3" class="my-2">
+          <v-avatar size="52" color="background" class="my-2">
             <v-img v-if="item.image" :src="mediaUrl(item.image, 'thumbnail')" cover />
-            <v-icon v-else icon="mdi-image-off-outline" color="grey" />
+            <v-icon v-else icon="mdi-image-off-outline" color="primary" />
           </v-avatar>
         </template>
         <template #item.name="{ item }">
@@ -71,16 +61,18 @@
           </div>
         </template>
         <template #item.category="{ item }">
-          {{ item.category }}
+          <v-chip size="small" variant="tonal" color="primary">{{ item.category }}</v-chip>
         </template>
         <template #item.price="{ item }">{{ formatPrice(item.price) }}</template>
         <template #item.stock="{ item }">
-          <span :class="{ 'text-error font-weight-bold': item.stock <= 0 }">{{ item.stock }}</span>
+          <v-chip size="small" :color="item.stock <= 5 ? 'secondary' : 'primary'" :variant="item.stock <= 0 ? 'flat' : 'tonal'">
+            {{ item.stock }}
+          </v-chip>
         </template>
         <template #item.isActive="{ item }">
-          <span :class="item.isActive ? 'text-primary' : 'text-grey'">
+          <v-chip size="small" color="primary" :variant="item.isActive ? 'flat' : 'outlined'">
             {{ item.isActive ? 'Active' : 'Inactive' }}
-          </span>
+          </v-chip>
         </template>
         <template #item.actions="{ item }">
           <div class="d-flex justify-end">
@@ -135,7 +127,7 @@
               <v-col cols="12" sm="6" class="d-flex align-center">
                 <v-switch
                   v-model="form.isActive"
-                  color="success"
+                  color="primary"
                   :label="form.isActive ? 'Active (visible in store)' : 'Inactive (hidden from store)'"
                   hide-details
                   inset
@@ -185,13 +177,13 @@
                 />
               </v-col>
               <v-col cols="12" sm="4" class="d-flex justify-center">
-                <v-avatar size="120" color="grey-lighten-3">
+                <v-avatar size="120" color="background">
                   <v-img v-if="previewUrl" :src="previewUrl" cover />
-                  <v-icon v-else icon="mdi-image-outline" size="48" color="grey" />
+                  <v-icon v-else icon="mdi-image-outline" size="48" color="primary" />
                 </v-avatar>
               </v-col>
             </v-row>
-            <v-alert v-if="formError" type="error" variant="outlined" class="mt-3" :text="formError" />
+            <v-alert v-if="formError" type="error" variant="tonal" class="mt-3" :text="formError" />
           </v-form>
         </v-card-text>
         <v-divider />
@@ -208,14 +200,14 @@
     <!-- ============ VIEW DIALOG ============ -->
     <v-dialog v-model="viewOpen" max-width="640">
       <v-card v-if="viewing">
-        <v-img v-if="viewing.image" :src="mediaUrl(viewing.image)" max-height="320" cover class="bg-grey-lighten-3" />
-        <div v-else class="d-flex align-center justify-center bg-grey-lighten-3" style="height: 180px">
-          <v-icon icon="mdi-image-off-outline" size="64" color="grey" />
+        <v-img v-if="viewing.image" :src="mediaUrl(viewing.image)" max-height="320" cover class="bg-background" />
+        <div v-else class="d-flex align-center justify-center bg-background" style="height: 180px">
+          <v-icon icon="mdi-image-off-outline" size="64" color="primary" />
         </div>
         <v-card-title class="text-h5 pt-4">{{ viewing.name }}</v-card-title>
         <v-card-subtitle>
-          <span class="mr-2">{{ viewing.category }} ·</span>
-          <span>{{ viewing.isActive ? 'Active' : 'Inactive' }}</span>
+          <v-chip size="small" color="primary" variant="tonal" class="mr-2">{{ viewing.category }}</v-chip>
+          <v-chip size="small" color="primary" :variant="viewing.isActive ? 'flat' : 'outlined'">{{ viewing.isActive ? 'Active' : 'Inactive' }}</v-chip>
         </v-card-subtitle>
         <v-card-text>
           <p class="mb-4">{{ viewing.description || 'No description.' }}</p>
@@ -254,7 +246,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-container>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -309,12 +301,6 @@ function filterProducts(_value: unknown, query: string, item: any) {
   return [p.name, p.description, p.category].some((f) => (f || '').toLowerCase().includes(q))
 }
 
-const stats = computed(() => [
-  { label: 'Total products', value: products.value.length, icon: 'mdi-package-variant-closed', color: 'primary' },
-  { label: 'Active', value: products.value.filter((p) => p.isActive).length, icon: 'mdi-check-circle', color: 'success' },
-  { label: 'Low stock (≤5)', value: products.value.filter((p) => p.stock > 0 && p.stock <= 5).length, icon: 'mdi-alert', color: 'warning' },
-  { label: 'Out of stock', value: products.value.filter((p) => p.stock <= 0).length, icon: 'mdi-close-circle', color: 'error' },
-])
 
 const categoryOptions = computed(() =>
   [...new Set([...DEFAULT_CATEGORIES, ...products.value.map((p) => p.category).filter(Boolean)])].sort(),

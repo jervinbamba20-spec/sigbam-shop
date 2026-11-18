@@ -1,12 +1,121 @@
+/* ---------- Design tokens ---------- */
+:root {
+  /* Soft, layered shadows (tinted with the indigo primary color) */
+  --shadow-sm: 0 1px 2px rgba(26, 35, 126, 0.06), 0 4px 14px rgba(26, 35, 126, 0.08);
+  --shadow-md: 0 2px 4px rgba(26, 35, 126, 0.06), 0 12px 32px rgba(26, 35, 126, 0.12);
+  --shadow-lg: 0 4px 8px rgba(26, 35, 126, 0.08), 0 24px 56px rgba(26, 35, 126, 0.18);
+  /* Same indigo, darker shade, for gradients */
+  --primary-dark: #1a237e;
+}
+
+/* ---------- Typography: Inter ---------- */
 html {
   scroll-behavior: smooth;
 }
+body,
+.v-application,
+.v-application [class*='text-'] {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif !important;
+}
+h1, h2, h3, .text-h2, .text-h3, .text-h4, .text-h5 {
+  letter-spacing: -0.025em !important;
+}
 
-/* Show only 2 lines of the product description */
+/* ---------- Every card gets a soft shadow ---------- */
+.v-card:not(.no-shadow) {
+  border: none !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+.shadow-lg {
+  box-shadow: var(--shadow-lg) !important;
+}
+
+/* Cards that lift on hover */
+.lift {
+  transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+}
+.lift:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* ---------- Layout ---------- */
+.page-wrap {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+@media (min-width: 960px) {
+  .page-wrap {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+/* Indigo gradient (one color, two shades) */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, rgb(var(--v-theme-primary)) 0%, var(--primary-dark) 100%) !important;
+  color: #fff !important;
+}
+.bg-gradient-secondary {
+  background: linear-gradient(135deg, #ff8f00 0%, rgb(var(--v-theme-secondary)) 100%) !important;
+  color: #fff !important;
+}
+
+/* Decorative circles used in banners */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+/* Big faded icon in the corner of promo cards */
+.bg-icon {
+  position: absolute;
+  right: -20px;
+  bottom: -30px;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* ---------- Text helpers ---------- */
 .text-truncate-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+.section-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ---------- Product card image zoom ---------- */
+.product-card .img-box .v-img__img {
+  transition: transform 0.4s ease;
+}
+.product-card:hover .img-box .v-img__img {
+  transform: scale(1.06);
+}
+
+/* ---------- Category tiles ---------- */
+.category-tile {
+  cursor: pointer;
+}
+.category-tile .v-avatar {
+  transition: transform 0.25s ease;
+}
+.category-tile:hover .v-avatar {
+  transform: scale(1.1);
 }

@@ -1,4 +1,4 @@
-# SigBam Shop: E-Commerce Web Application
+# ShopKart: E-Commerce Web Application
 
 Final Examination project for **Web Systems and Technologies**.
 Built with **Nuxt 4 + Vue 3 (Composition API)**, **Vuetify 4**, **Strapi 5** and **PostgreSQL**.

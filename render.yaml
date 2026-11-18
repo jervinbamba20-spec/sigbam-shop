@@ -3,14 +3,14 @@
 # The Nuxt frontend is deployed separately on Vercel (see README.md).
 
 databases:
-  - name: sigbam-shop-db
+  - name: shopkart-db
     plan: free
     databaseName: ecommerce
     user: ecommerce
 
 services:
   - type: web
-    name: sigbam-shop-api
+    name: shopkart-api
     runtime: node
     plan: free
     rootDir: backend
@@ -29,7 +29,7 @@ services:
         value: postgres
       - key: DATABASE_URL
         fromDatabase:
-          name: sigbam-shop-db
+          name: shopkart-db
           property: connectionString
       - key: DATABASE_SSL
         value: "false"
@@ -54,6 +54,6 @@ services:
         sync: false
       - key: CLOUDINARY_SECRET
         sync: false
-      # Optional: your Vercel URL, e.g. https://sigbam-shop.vercel.app
+      # Optional: your Vercel URL, e.g. https://shopkart.vercel.app
       - key: CORS_ORIGINS
         sync: false

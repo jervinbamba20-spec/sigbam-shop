@@ -1,36 +1,43 @@
 import { createVuetify } from 'vuetify'
 import 'vuetify/styles'
 
+// Only 3 brand colors are used in the whole app:
+const PRIMARY = '#3949AB' // indigo: header accents, buttons, prices, links
+const SECONDARY = '#FF6D00' // orange: sale banner, badges, warnings, out of stock
+const BACKGROUND = '#F5F6FA' // light grey page background
+
 export default defineNuxtPlugin((nuxtApp) => {
   const vuetify = createVuetify({
     theme: {
-      defaultTheme: 'light',
+      defaultTheme: 'shop',
       themes: {
-        light: {
+        shop: {
           dark: false,
           colors: {
-            primary: '#1976D2',
-            secondary: '#424242',
-            error: '#D32F2F',
-            success: '#388E3C',
-            warning: '#F57C00',
-            info: '#1976D2',
-            background: '#FFFFFF',
+            primary: PRIMARY,
+            secondary: SECONDARY,
+            background: BACKGROUND,
             surface: '#FFFFFF',
+            // Status colors reuse the same 3 colors
+            success: PRIMARY,
+            info: PRIMARY,
+            warning: SECONDARY,
+            error: SECONDARY,
           },
         },
       },
     },
-    // Default props for components: flat cards with a thin border
+    // Default props applied to every component of that type
     defaults: {
-      VCard: { flat: true, border: true },
-      VAppBar: { flat: true },
-      VBtn: { class: 'text-none', elevation: 0 },
-      VTextField: { variant: 'outlined', density: 'comfortable' },
-      VTextarea: { variant: 'outlined', density: 'comfortable' },
-      VSelect: { variant: 'outlined', density: 'comfortable' },
-      VCombobox: { variant: 'outlined', density: 'comfortable' },
-      VFileInput: { variant: 'outlined', density: 'comfortable' },
+      // Cards: no border, extra-rounded corners; the soft shadow comes from main.css
+      VCard: { rounded: 'xl' },
+      VBtn: { class: 'text-none font-weight-medium', rounded: 'lg' },
+      VChip: { rounded: 'lg' },
+      VTextField: { variant: 'outlined', density: 'comfortable', rounded: 'lg' },
+      VTextarea: { variant: 'outlined', density: 'comfortable', rounded: 'lg' },
+      VSelect: { variant: 'outlined', density: 'comfortable', rounded: 'lg' },
+      VCombobox: { variant: 'outlined', density: 'comfortable', rounded: 'lg' },
+      VFileInput: { variant: 'outlined', density: 'comfortable', rounded: 'lg' },
     },
   })
   nuxtApp.vueApp.use(vuetify)

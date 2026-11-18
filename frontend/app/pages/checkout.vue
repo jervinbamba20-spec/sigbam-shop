@@ -1,5 +1,5 @@
 <template>
-  <v-container class="py-8" style="max-width: 1200px">
+  <div class="page-wrap py-8">
     <div class="d-flex align-center mb-6">
       <v-btn icon="mdi-arrow-left" variant="text" to="/" aria-label="Back to store" />
       <h1 class="text-h5 text-md-h4 font-weight-bold ml-2">Checkout All</h1>
@@ -32,7 +32,7 @@
           <v-alert
             v-if="hasProblems"
             type="warning"
-            variant="outlined"
+            variant="tonal"
             class="ma-4"
             text="Some items are unavailable or exceed the available stock. Please fix them before checking out."
           />
@@ -51,9 +51,9 @@
               <tr v-for="item in items" :key="item.documentId">
                 <td class="py-2">
                   <div class="d-flex align-center">
-                    <v-avatar size="48" color="grey-lighten-3" class="mr-3 d-none d-sm-flex">
+                    <v-avatar size="48" color="background" class="mr-3 d-none d-sm-flex">
                       <v-img v-if="item.imageUrl" :src="item.imageUrl" cover />
-                      <v-icon v-else :icon="categoryIcon(item.category)" color="grey" />
+                      <v-icon v-else :icon="categoryIcon(item.category)" color="primary" />
                     </v-avatar>
                     <div>
                       <div class="font-weight-medium">{{ item.name }}</div>
@@ -85,10 +85,6 @@
             <div class="d-flex justify-space-between mb-1">
               <span class="text-medium-emphasis">Total items</span>
               <span class="font-weight-medium">{{ totalItems }}</span>
-            </div>
-            <div class="d-flex justify-space-between mb-1">
-              <span class="text-medium-emphasis">Shipping</span>
-              <span class="text-success font-weight-medium">FREE</span>
             </div>
             <v-divider class="my-2" />
             <div class="d-flex justify-space-between text-h6">
@@ -147,7 +143,7 @@
                 </v-radio>
               </v-radio-group>
 
-              <v-alert v-if="errorMessage" type="error" variant="outlined" class="mb-4" closable @click:close="errorMessage = ''">
+              <v-alert v-if="errorMessage" type="error" variant="tonal" class="mb-4" closable @click:close="errorMessage = ''">
                 {{ errorMessage }}
               </v-alert>
 
@@ -187,7 +183,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-container>
+  </div>
 </template>
 
 <script setup lang="ts">

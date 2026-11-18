@@ -9,7 +9,7 @@
       <div class="d-flex align-center pa-4">
         <v-icon icon="mdi-cart" color="primary" class="mr-2" />
         <span class="text-h6">Shopping Cart</span>
-        <v-chip class="ml-2" size="small" color="primary" variant="outlined">{{ totalItems }} item(s)</v-chip>
+        <v-chip class="ml-2" size="small" color="primary" variant="tonal">{{ totalItems }} item(s)</v-chip>
         <v-spacer />
         <v-btn icon="mdi-close" variant="text" aria-label="Close cart" @click="drawer = false" />
       </div>
@@ -27,9 +27,9 @@
           <template v-for="item in items" :key="item.documentId">
             <v-list-item class="py-3">
               <template #prepend>
-                <v-avatar size="64" color="grey-lighten-3" class="mr-1">
+                <v-avatar size="64" color="background" class="mr-1">
                   <v-img v-if="item.imageUrl" :src="item.imageUrl" cover />
-                  <v-icon v-else :icon="categoryIcon(item.category)" color="grey" />
+                  <v-icon v-else :icon="categoryIcon(item.category)" color="primary" />
                 </v-avatar>
               </template>
 
@@ -42,7 +42,7 @@
                 v-if="item.unavailable"
                 type="error"
                 density="compact"
-                variant="outlined"
+                variant="tonal"
                 class="mt-2"
                 text="This product is no longer available. Please remove it."
               />
@@ -50,7 +50,7 @@
                 v-else-if="item.stock <= 0"
                 type="warning"
                 density="compact"
-                variant="outlined"
+                variant="tonal"
                 class="mt-2"
                 text="Out of stock. Please remove it."
               />
@@ -59,7 +59,7 @@
                 <v-btn
                   icon="mdi-minus"
                   size="x-small"
-                  variant="outlined"
+                  variant="tonal"
                   :disabled="item.quantity <= 1 || item.unavailable"
                   aria-label="Decrease quantity"
                   @click="decrement(item.documentId)"
@@ -77,7 +77,7 @@
                 <v-btn
                   icon="mdi-plus"
                   size="x-small"
-                  variant="outlined"
+                  variant="tonal"
                   :disabled="item.quantity >= item.stock || item.unavailable"
                   aria-label="Increase quantity"
                   @click="increment(item.documentId)"
@@ -99,7 +99,7 @@
         </v-list>
       </div>
 
-      <div v-if="items.length" class="pa-4 bg-grey-lighten-4">
+      <div v-if="items.length" class="pa-4 bg-background">
         <div class="d-flex justify-space-between mb-1">
           <span>Total items</span>
           <span class="font-weight-medium">{{ totalItems }}</span>

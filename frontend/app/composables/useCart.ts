@@ -14,8 +14,8 @@ export interface CartItem {
   unavailable?: boolean // product became inactive / was deleted
 }
 
-const CART_KEY = 'sigbam-shop-cart'
-const WISHLIST_KEY = 'sigbam-shop-wishlist'
+const CART_KEY = 'shopkart-cart'
+const WISHLIST_KEY = 'shopkart-wishlist'
 
 function load<T>(key: string, fallback: T): T {
   if (!import.meta.client) return fallback

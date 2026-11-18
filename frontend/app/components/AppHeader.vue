@@ -1,35 +1,58 @@
 <template>
-  <v-app-bar color="primary" density="comfortable">
-    <v-app-bar-title>
-      <NuxtLink to="/" class="d-flex align-center text-white text-decoration-none">
-        <v-icon icon="mdi-shopping" class="mr-2" />
-        <span class="font-weight-bold">SigBam Shop</span>
+  <v-app-bar color="surface" flat border="b" height="72">
+    <div class="page-wrap d-flex align-center w-100 ga-4">
+      <!-- Logo -->
+      <NuxtLink to="/" class="d-flex align-center text-decoration-none flex-shrink-0">
+        <v-avatar color="primary" rounded="lg" size="38" class="mr-2">
+          <v-icon icon="mdi-shopping" size="22" />
+        </v-avatar>
+        <span class="text-h6 font-weight-bold text-high-emphasis">Shop<span class="text-primary">Kart</span></span>
       </NuxtLink>
-    </v-app-bar-title>
 
-    <template #append>
-      <v-btn to="/" variant="text" :icon="mobile" aria-label="Home">
-        <v-icon icon="mdi-home" :start="!mobile" />
-        <span v-if="!mobile">Home</span>
-      </v-btn>
+      <!-- Search (tablet/desktop) -->
+      <v-text-field
+        v-if="!mobile"
+        v-model="search"
+        placeholder="Search products, categories..."
+        prepend-inner-icon="mdi-magnify"
+        density="compact"
+        variant="solo-filled"
+        flat
+        rounded="pill"
+        hide-details
+        clearable
+        class="mx-auto"
+        style="max-width: 560px"
+        @update:model-value="goToResults"
+      />
+      <v-spacer v-else />
 
-      <v-btn to="/products" variant="text" :icon="mobile" aria-label="Manage Products">
-        <v-icon icon="mdi-package-variant-closed" :start="!mobile" />
-        <span v-if="!mobile">Manage Products</span>
-      </v-btn>
+      <!-- Actions -->
+      <div class="d-flex align-center ga-1 flex-shrink-0">
+        <v-btn
+          to="/products"
+          variant="text"
+          :icon="mobile"
+          aria-label="Manage Products"
+          class="text-medium-emphasis"
+        >
+          <v-icon icon="mdi-view-dashboard-outline" :start="!mobile" />
+          <span v-if="!mobile">Manage Products</span>
+        </v-btn>
 
-      <v-btn icon aria-label="Wishlist" @click="emit('open-wishlist')">
-        <v-badge :content="wishlist.length" :model-value="wishlist.length > 0" color="error">
-          <v-icon icon="mdi-heart" />
-        </v-badge>
-      </v-btn>
+        <v-btn icon variant="text" aria-label="Wishlist" @click="emit('open-wishlist')">
+          <v-badge :content="wishlist.length" :model-value="wishlist.length > 0" color="secondary">
+            <v-icon icon="mdi-heart-outline" />
+          </v-badge>
+        </v-btn>
 
-      <v-btn icon aria-label="Shopping cart" @click="drawer = !drawer">
-        <v-badge :content="totalItems" :model-value="totalItems > 0" color="error">
-          <v-icon icon="mdi-cart" />
-        </v-badge>
-      </v-btn>
-    </template>
+        <v-btn icon variant="text" aria-label="Shopping cart" @click="drawer = !drawer">
+          <v-badge :content="totalItems" :model-value="totalItems > 0" color="secondary">
+            <v-icon icon="mdi-cart-outline" />
+          </v-badge>
+        </v-btn>
+      </div>
+    </div>
   </v-app-bar>
 </template>
 
@@ -39,4 +62,11 @@ import { useDisplay } from 'vuetify'
 const emit = defineEmits<{ 'open-wishlist': [] }>()
 const { smAndDown: mobile } = useDisplay()
 const { totalItems, wishlist, drawer } = useCart()
+const { search } = useShopFilters()
+const route = useRoute()
+
+// Searching from another page takes the user to the product grid
+function goToResults(value: string | null) {
+  if (value && route.path !== '/') navigateTo('/#products')
+}
 </script>
