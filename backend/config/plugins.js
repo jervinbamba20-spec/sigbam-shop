@@ -1,31 +1,13 @@
-const allowedMediaTypes = [
-  'image/*',
-  'video/*',
-  'audio/*',
-  'application/pdf',
-  'application/msword',
-  'application/vnd.openxmlformats-officedocument.*',
-  'text/plain',
-  'text/csv',
-];
-
-const deniedTypes = [
-  'image/svg+xml',
-  'application/vnd.microsoft.portable-executable',
-  'application/x-msdownload',
-  'application/x-msdos-program',
-  'application/x-executable',
-  'application/x-dosexec',
-  'application/x-sh',
-  'text/x-shellscript',
-  'application/x-mach-binary',
-];
+// Product images only: JPEG, PNG, WebP, GIF and AVIF up to 5 MB (no SVG).
+const allowedMediaTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif'];
+const deniedTypes = ['image/svg+xml'];
 
 module.exports = ({ env }) => {
   // In the cloud (Render) the local disk is wiped on every restart/deploy, so
-  // uploaded images are stored on Cloudinary when CLOUDINARY_NAME is set.
+  // uploaded images are stored on Cloudinary when ALL three variables are set.
   // Locally (no Cloudinary vars) images are saved to /public/uploads.
-  const useCloudinary = !!env('CLOUDINARY_NAME');
+  const useCloudinary = !!(env('CLOUDINARY_NAME') && env('CLOUDINARY_KEY') && env('CLOUDINARY_SECRET'));
+  const folder = env('CLOUDINARY_FOLDER', 'shopkart');
 
   return {
     'users-permissions': {
@@ -47,8 +29,8 @@ module.exports = ({ env }) => {
             api_secret: env('CLOUDINARY_SECRET'),
           },
           actionOptions: {
-            upload: { folder: env('CLOUDINARY_FOLDER', 'ecommerce') },
-            uploadStream: { folder: env('CLOUDINARY_FOLDER', 'ecommerce') },
+            upload: { folder },
+            uploadStream: { folder },
             delete: {},
           },
         }),

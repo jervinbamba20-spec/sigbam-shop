@@ -17,7 +17,8 @@ module.exports = {
       config: {
         auth: false,
         policies: [],
-        middlewares: [],
+        // Max 10 checkout attempts per visitor per minute
+        middlewares: [{ name: 'global::rate-limit', config: { name: 'checkout', max: 10, windowMs: 60 * 1000 } }],
       },
     },
   ],

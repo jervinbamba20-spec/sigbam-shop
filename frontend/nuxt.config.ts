@@ -1,7 +1,41 @@
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 
+// The Strapi API URL is read at BUILD time to create the security headers below.
+// If NUXT_PUBLIC_STRAPI_URL changes on Vercel, redeploy the frontend.
+const apiUrl = (process.env.NUXT_PUBLIC_STRAPI_URL || 'http://localhost:1337').replace(/\/$/, '')
+
+// Content-Security-Policy: only allow our own files, the Strapi API,
+// Cloudinary images and Google Fonts.
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline'", // Nuxt injects a small inline config script
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' data: https://fonts.gstatic.com",
+  `img-src 'self' data: blob: ${apiUrl} https://res.cloudinary.com`,
+  `connect-src 'self' ${apiUrl}`,
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "frame-ancestors 'none'",
+].join('; ')
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  // Security headers for the deployed site (production builds only)
+  $production: {
+    routeRules: {
+      '/**': {
+        headers: {
+          'Content-Security-Policy': contentSecurityPolicy,
+          'X-Content-Type-Options': 'nosniff',
+          'X-Frame-Options': 'DENY',
+          'Referrer-Policy': 'strict-origin-when-cross-origin',
+          'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+        },
+      },
+    },
+  },
+
   compatibilityDate: '2025-07-15',
   devtools: { enabled: false },
 

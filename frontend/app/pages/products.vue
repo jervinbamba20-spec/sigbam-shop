@@ -158,13 +158,13 @@
                 <v-file-input
                   v-model="imageFile"
                   label="Product Image"
-                  accept="image/png, image/jpeg, image/webp, image/gif"
+                  accept="image/png, image/jpeg, image/webp, image/gif, image/avif"
                   prepend-icon=""
                   prepend-inner-icon="mdi-camera"
                   show-size
                   clearable
                   :rules="[imageRule]"
-                  :hint="editing && currentImage ? 'Leave empty to keep the current image' : 'JPG, PNG, WEBP or GIF up to 5 MB'"
+                  :hint="editing && currentImage ? 'Leave empty to keep the current image' : 'JPG, PNG, WebP, GIF or AVIF up to 5 MB'"
                   persistent-hint
                 />
                 <v-checkbox

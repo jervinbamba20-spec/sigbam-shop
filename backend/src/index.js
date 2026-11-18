@@ -79,6 +79,11 @@ module.exports = {
   register(/* { strapi } */) {},
 
   async bootstrap({ strapi }) {
+    // Behind Render's proxy only trust the last N X-Forwarded-For entries,
+    // so a visitor can't fake their IP to dodge the rate limiter.
+    const maxIps = parseInt(process.env.PROXY_MAX_IPS_COUNT || '0', 10);
+    if (maxIps > 0) strapi.server.app.maxIpsCount = maxIps;
+
     await grantPublicPermissions(strapi);
     await seedProductsIfEmpty(strapi);
   },
